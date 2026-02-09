@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogisticsProShipmentSystem", "LogisticsProShipmentSystem\LogisticsProShipmentSystem.csproj", "{88712221-AE9F-868C-951D-A40582671915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibraryManagementSystem", "MovieLibraryManagementSystem\MovieLibraryManagementSystem.csproj", "{59423119-6831-E652-952D-D138D578EA48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88712221-AE9F-868C-951D-A40582671915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88712221-AE9F-868C-951D-A40582671915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88712221-AE9F-868C-951D-A40582671915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88712221-AE9F-868C-951D-A40582671915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59423119-6831-E652-952D-D138D578EA48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59423119-6831-E652-952D-D138D578EA48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59423119-6831-E652-952D-D138D578EA48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59423119-6831-E652-952D-D138D578EA48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C516D669-D94D-4089-BB09-2D751716EA51}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAsyncAwaitStepByStep", "ConsoleAsyncAwaitStepByStep\ConsoleAsyncAwaitStepByStep.csproj", "{901A9673-CCA7-D44E-63BB-0F67AAC26054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailCleaner", "EmailCleaner\EmailCleaner.csproj", "{1CF10701-2C0D-FE1E-D14B-B1BE1F2AE95E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordMasking", "PasswordMasking\PasswordMasking.csproj", "{3C4F4513-E038-6768-38C6-9D9ABBDAAC63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordFrequency", "WordFrequency\WordFrequency.csproj", "{38B5F0B2-8DBD-4A6B-5B3D-291A9B13D480}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{901A9673-CCA7-D44E-63BB-0F67AAC26054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901A9673-CCA7-D44E-63BB-0F67AAC26054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901A9673-CCA7-D44E-63BB-0F67AAC26054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901A9673-CCA7-D44E-63BB-0F67AAC26054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF10701-2C0D-FE1E-D14B-B1BE1F2AE95E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF10701-2C0D-FE1E-D14B-B1BE1F2AE95E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF10701-2C0D-FE1E-D14B-B1BE1F2AE95E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF10701-2C0D-FE1E-D14B-B1BE1F2AE95E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C4F4513-E038-6768-38C6-9D9ABBDAAC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4F4513-E038-6768-38C6-9D9ABBDAAC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4F4513-E038-6768-38C6-9D9ABBDAAC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C4F4513-E038-6768-38C6-9D9ABBDAAC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B5F0B2-8DBD-4A6B-5B3D-291A9B13D480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B5F0B2-8DBD-4A6B-5B3D-291A9B13D480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B5F0B2-8DBD-4A6B-5B3D-291A9B13D480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B5F0B2-8DBD-4A6B-5B3D-291A9B13D480}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B091FCB-DE40-46FA-BC13-ACEFD6EBC865}
+	EndGlobalSection
+EndGlobal
