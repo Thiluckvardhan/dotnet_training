@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-// Base product interface
 public interface IProduct
 {
     int Id { get; }
@@ -11,53 +10,50 @@ public interface IProduct
     Category Category { get; }
 }
 
-public enum Category { Electronics, Clothing, Books, Groceries }
+public enum Category
+{
+    Electronics,
+    Clothing,
+    Books,
+    Groceries
+}
 
-// 1. Create a generic repository for products
 public class ProductRepository<T> where T : class, IProduct
 {
     private List<T> _products = new List<T>();
 
-    // TODO: Implement method to add product with validation
     public void AddProduct(T product)
     {
-        // Rule: Product ID must be unique
-        // Rule: Price must be positive
-        // Rule: Name cannot be null or empty
-        // Add to collection if validation passes
+        if (product == null)
+            throw new ArgumentNullException(nameof(product));
+
         if (_products.Any(p => p.Id == product.Id))
-        {
-            throw new Exception($"Cannot Add Product {product.Name} as product Id{product.Id} already Exists");
-        }
-        if (product.Price < 0)
-        {
-            throw new Exception("Cannot Add Product as Price is not Postive.");
-        }
-        if (string.IsNullOrEmpty(product.Name))
-        {
-            throw new Exception("Cannot Add Product as Name is NUll Or Empty");
-        }
+            throw new Exception($"❌ Product with ID {product.Id} already exists.");
+
+        if (product.Price <= 0)
+            throw new Exception("❌ Price must be greater than zero.");
+
+        if (string.IsNullOrWhiteSpace(product.Name))
+            throw new Exception("❌ Product name cannot be empty.");
+
         _products.Add(product);
-        System.Console.WriteLine("Product Added Successfully");
+
+        Console.WriteLine($"✔ Added: {product.Name} | ID: {product.Id} | Price: {product.Price}");
     }
 
-    // TODO: Create method to find products by predicate
     public IEnumerable<T> FindProducts(Func<T, bool> predicate)
     {
-        // Should return filtered products
         return _products.Where(predicate);
     }
 
-    // TODO: Calculate total inventory value
     public decimal CalculateTotalValue()
     {
-        // Return sum of all product prices
-        decimal total = _products.Sum(product => product.Price);
-        return total;
+        return _products.Sum(p => p.Price);
     }
+
+    public List<T> GetAll() => _products;
 }
 
-// 2. Specialized electronic product
 public class ElectronicProduct : IProduct
 {
     public int Id { get; set; }
@@ -68,118 +64,105 @@ public class ElectronicProduct : IProduct
     public string Brand { get; set; }
 }
 
-// 3. Create a discounted product wrapper
 public class DiscountedProduct<T> where T : IProduct
 {
-    private T _product;
-    private decimal _discountPercentage;
+    private readonly T _product;
+    private readonly decimal _discountPercentage;
 
     public DiscountedProduct(T product, decimal discountPercentage)
     {
-        // TODO: Initialize with validation
-        // Discount must be between 0 and 100
+        if (discountPercentage < 0 || discountPercentage > 100)
+            throw new ArgumentException("Discount must be between 0 and 100.");
+
         _product = product;
-        if (discountPercentage >= 0 && discountPercentage <= 100)
-        {
-            _discountPercentage = discountPercentage;
-        }
-        else
-        {
-            _discountPercentage = 0;
-        }
+        _discountPercentage = discountPercentage;
     }
 
-    // TODO: Implement calculated price with discount
-    public decimal DiscountedPrice => _product.Price * (1 - _discountPercentage / 100);
+    public decimal DiscountedPrice =>
+        _product.Price * (1 - _discountPercentage / 100);
 
-    // TODO: Override ToString to show discount details
     public override string ToString()
     {
-        return $"{DiscountedPrice}";
+        return $"Product: {_product.Name} | Original: {_product.Price} | Discount: {_discountPercentage}% | Final: {DiscountedPrice}";
     }
 }
 
-// 4. Inventory manager with constraints
 public class InventoryManager
 {
-    // TODO: Create method that accepts any IProduct collection
     public void ProcessProducts<T>(IEnumerable<T> products) where T : IProduct
     {
-        // a) Print all product names and prices
-        // b) Find the most expensive product
-        // c) Group products by category
-        // d) Apply 10% discount to Electronics over $500
-        decimal expensiveProduct = 0.0m;
-        string expensiveProductName = "";
-        foreach (var product in products)
-        {
-            System.Console.WriteLine($"{product.Name}   {product.Price}");
-            if (expensiveProduct < product.Price)
-            {
-                expensiveProduct = product.Price;
-                expensiveProductName = product.Name;
-            }
-        }
-        System.Console.WriteLine($"The costliest Product is {expensiveProductName}");
-        var grouped = products.GroupBy(product => product.Category);
+        Console.WriteLine("\n========== PRODUCT LIST ==========");
+
+        foreach (var p in products)
+            Console.WriteLine($"Product: {p.Name} | Price: {p.Price} | Category: {p.Category}");
+
+        var mostExpensive = products.OrderByDescending(p => p.Price).First();
+        Console.WriteLine($"\n⭐ Most Expensive Product: {mostExpensive.Name} ({mostExpensive.Price})");
+
+        Console.WriteLine("\n========== GROUPED BY CATEGORY ==========");
+        var grouped = products.GroupBy(p => p.Category);
+
         foreach (var group in grouped)
         {
             Console.WriteLine($"\nCategory: {group.Key}");
             foreach (var p in group)
-                Console.WriteLine($"{p.Name}");
+                Console.WriteLine($" - {p.Name} ({p.Price})");
         }
-        Console.WriteLine("\nDiscounted Prices (Electronics > 500):");
-        foreach (var product in products)
+
+        Console.WriteLine("\n========== DISCOUNT (Electronics > 500) ==========");
+        foreach (var p in products.Where(p => p.Category == Category.Electronics && p.Price > 500))
         {
-            if (product.Category == Category.Electronics && product.Price > 500m)
-            {
-                if (product is ElectronicProduct p)
-                    p.Price *= 0.9m;
-            }
+            var discounted = new DiscountedProduct<T>(p, 10);
+            Console.WriteLine(discounted);
         }
     }
 
-    // TODO::Implement bulk price update with delegate
     public void UpdatePrices<T>(List<T> products, Func<T, decimal> priceAdjuster)
         where T : IProduct
     {
-        // Apply priceAdjuster to each product
-        // Handle exceptions gracefully
+        
+        Console.WriteLine("\n========== BULK PRICE UPDATE ==========");
+
+        foreach (var product in products)
+        {
+            try
+            {
+                var newPrice = priceAdjuster(product);
+
+                if (product is ElectronicProduct ep)
+                    ep.Price = newPrice;
+
+                Console.WriteLine($"Updated: {product.Name} → {newPrice}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"⚠ Failed updating {product.Name}: {ex.Message}");
+            }
+        }
     }
 }
 
-// 5. TEST SCENARIO: Your tasks:
-// a) Implement all TODO methods with proper error handling
-// b) Create a sample inventory with at least 5 products
-// c) Demonstrate:
-//    - Adding products with validation
-//    - Finding products by brand (for electronics)
-//    - Applying discounts
-//    - Calculating total value before/after discount
-//    - Handling a mixed collection of different product types
 public class Program
 {
     public static void Main()
     {
-        // Repository
-        ProductRepository<ElectronicProduct> electronicRepo = new ProductRepository<ElectronicProduct>();
-        // Sample products
-        var product1 = new ElectronicProduct { Id = 1, Name = "Laptop", Price = 800, Brand = "Dell", WarrantyMonths = 24 };
-        var product2 = new ElectronicProduct { Id = 2, Name = "Mobile", Price = 600, Brand = "Samsung", WarrantyMonths = 12 };
-        var product3 = new ElectronicProduct { Id = 3, Name = "Headphones", Price = 150, Brand = "Sony", WarrantyMonths = 6 };
-        var product4 = new ElectronicProduct { Id = 4, Name = "Monitor", Price = 300, Brand = "LG", WarrantyMonths = 18 };
-        var product5 = new ElectronicProduct { Id = 5, Name = "TV", Price = 1200, Brand = "Sony", WarrantyMonths = 36 };
+        ProductRepository<ElectronicProduct> repo = new ProductRepository<ElectronicProduct>();
 
         var products = new List<ElectronicProduct>
         {
-            product1, product2, product3, product4, product5
+            new ElectronicProduct { Id = 1, Name = "Laptop", Price = 800, Brand = "Dell", WarrantyMonths = 24 },
+            new ElectronicProduct { Id = 2, Name = "Mobile", Price = 600, Brand = "Samsung", WarrantyMonths = 12 },
+            new ElectronicProduct { Id = 3, Name = "Headphones", Price = 150, Brand = "Sony", WarrantyMonths = 6 },
+            new ElectronicProduct { Id = 4, Name = "Monitor", Price = 300, Brand = "LG", WarrantyMonths = 18 },
+            new ElectronicProduct { Id = 5, Name = "TV", Price = 1200, Brand = "Sony", WarrantyMonths = 36 }
         };
 
+        Console.WriteLine("========== ADDING PRODUCTS ==========");
         foreach (var p in products)
         {
             try
             {
-                electronicRepo.AddProduct(p);
+                repo.AddProduct(p);
             }
             catch (Exception ex)
             {
@@ -187,31 +170,22 @@ public class Program
             }
         }
 
-        // Find products by brand
-        var sonyProducts = electronicRepo.FindProducts(p => p.Brand == "Sony");
-        Console.WriteLine("Sony Products:");
+        Console.WriteLine("\n========== SONY PRODUCTS ==========");
+        var sonyProducts = repo.FindProducts(p => p.Brand == "Sony");
         foreach (var p in sonyProducts)
             Console.WriteLine($"{p.Name} - {p.Price}");
 
-        // Total value before discount
-        Console.WriteLine($"Total Value Before Discount: {electronicRepo.CalculateTotalValue()}");
+        Console.WriteLine($"\n💰 Total Inventory Value (Before Update): {repo.CalculateTotalValue()}");
 
-        // Discount example
-        var discounted = new DiscountedProduct<ElectronicProduct>(product1, 10);
-        Console.WriteLine($"Discounted Price of {product1.Name}: {discounted.DiscountedPrice}");
+        Console.WriteLine("\n========== SAMPLE DISCOUNT ==========");
+        var discounted = new DiscountedProduct<ElectronicProduct>(products[0], 10);
+        Console.WriteLine(discounted);
 
-        // Inventory manager processing
         InventoryManager manager = new InventoryManager();
-        manager.ProcessProducts(new List<ElectronicProduct> { product1, product2, product3, product4, product5 });
+        manager.ProcessProducts(products);
 
-        // Bulk price update example
-        // manager.UpdatePrices(
-        //     new List<ElectronicProduct> { p1, p2, p3, p4, p5 },
-        //     prod => prod.Price * 1.05m
-        // );
+        manager.UpdatePrices(products, p => p.Price * 1.05m);
 
-        // Total value after update
-        Console.WriteLine($"Total Value After Update: {electronicRepo.CalculateTotalValue()}");
+        Console.WriteLine($"\n📈 Total Inventory Value (After 5% Increase): {repo.CalculateTotalValue()}");
     }
 }
-
