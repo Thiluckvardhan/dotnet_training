@@ -71,6 +71,7 @@
             {
                 savingAccount1.Deposit(5000);
                 savingAccount1.Withdraw(2000);
+                Console.WriteLine($"Calculated Intrest : {savingAccount1.IntrestCalculation(2)}");
             }
             catch(Exception ex)
             {
