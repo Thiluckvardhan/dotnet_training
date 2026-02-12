@@ -3,7 +3,7 @@
     public class BankAccount
     {
         public string? Name{get;set;}
-        public double Balance{get;}
+        public double Balance{get;protected set;}
 
         public BankAccount(string name,double balance)
         {
@@ -38,6 +38,10 @@
 
     public class SavingAccount : BankAccount
     {
+        public SavingAccount(string name,double balance) : base(name, balance)
+        {
+            
+        }
         public double IntrestCalculation(double intrest)
         {
             if (intrest <= 0)
