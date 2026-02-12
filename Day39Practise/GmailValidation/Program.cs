@@ -9,8 +9,9 @@
             if (string.IsNullOrEmpty(gmail))
             {
                 System.Console.WriteLine("gmail cannot be empty");
+                return;
             }
-            string[] strings = gmail.Split("@");
+            string[] strings = gmail.Split('@');
 
             if (strings.Length != 2)
             {
@@ -18,28 +19,25 @@
                 return;
             }
             bool isGmail = true;
-            bool prevDot=false;
-            List<char> inValidChars = new List<char> { '_', '&', '=', '+', ',', '<', '>', '!', '\'', '-',' ' };
+            bool prevDot = false;
+            List<char> inValidChars = new List<char> { '_', '&', '=', '+', ',', '<', '>', '!', '\'', '-', ' ' };
             foreach (char letter in strings[0])
             {
-                if (prevDot && letter=='.')
-                {
-                    isGmail=false;
-                    break;
-                }
-                else if (letter == '.')
-                {
-                    prevDot=true;
-                }
-                if (inValidChars.Contains(letter) || !(char.IsAsciiLetterOrDigit(letter)|| letter=='.'))
+                if (prevDot && letter == '.')
                 {
                     isGmail = false;
                     break;
                 }
+                if (inValidChars.Contains(letter) || !(char.IsAsciiLetterOrDigit(letter) || letter == '.'))
+                {
+                    isGmail = false;
+                    break;
+                }
+                prevDot = (letter=='.');
             }
             if (strings[1] != "gmail.com")
             {
-                isGmail=false;
+                isGmail = false;
             }
             if (isGmail)
             {
