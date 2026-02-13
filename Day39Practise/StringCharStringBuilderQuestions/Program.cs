@@ -207,11 +207,11 @@ namespace StringCharStringBuilderQuestions
             //    Console.WriteLine(item.Key + " : " + item.Value);
 
 
-            //2. Longest substring without repeating characters.
-            //Console.WriteLine("Enter string:");
-            //string input = Console.ReadLine();
-            //int result = LongestUniqueSubstring(input);
-            //Console.WriteLine("Longest substring Length: " + result);
+            // 2. Longest substring without repeating characters.
+            Console.WriteLine("Enter string:");
+            string input = Console.ReadLine();
+            int result = LongestUniqueSubstring(input);
+            Console.WriteLine("Longest substring Length: " + result);
 
 
             //3. Run-length encoding (e.g., "aaabbcccc" → "a3b2c4").
