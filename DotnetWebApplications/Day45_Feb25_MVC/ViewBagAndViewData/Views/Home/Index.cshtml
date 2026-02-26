@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    string[] CountriesList=ViewBag.CountriesList.Split(',');
+    string C=ViewBag.CountriesList;
+    ViewData["2"]="Pratham";
+    ViewData["1"]="Thiluck";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+
+<div class="text-center">
+    @foreach(var item in CountriesList){
+        <p> @item</p>
+    }
+
+    <div >
+        <table>
+            <tbody>
+        <ul>
+    @foreach (var item in ViewData)
+    {
+            <li>Key: @item.Key  
+            Value: @item.Value</li>
+    }
+        </ul>
+        <tbody>
+        </table>
+</div>
+</div>
+ 
