@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
-public class EmployeeService
+namespace EmployeeApp.Core;
+
+public class EmployeeService : IEmployeeService
 {
     private readonly IEmployeeRepository repository;
 
@@ -9,8 +11,13 @@ public class EmployeeService
         this.repository = repository;
     }
 
-    public int GetEmployeeCount()
+    public Employee GetEmployeeOrThrow(int id)
     {
-        return repository.GetAll().Count;
+        if(id<=0) throw new ArgumentOutOfRangeException(nameof(id), "Id must be  positve");
+
+        var employee = repository.GetById(id);
+        if (employee is null)
+            throw new KeyNotFoundException($"Employee with id{id} not found");
+        return employee;
     }
 }

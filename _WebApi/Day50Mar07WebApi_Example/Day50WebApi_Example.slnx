@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../Day51WebApiIntegrationInMVC/TaskClassLibrary/TaskClassLibrary.csproj" Id="bc241f17-cbf5-45e5-b3e6-e0e6a0f7745c" />
+  <Project Path="Day50WebApi_Example.csproj" />
+</Solution>

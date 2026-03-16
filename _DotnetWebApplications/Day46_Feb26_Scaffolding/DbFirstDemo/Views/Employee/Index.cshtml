@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DbFirstDemo.Models.Employees>
+
+@{
+    ViewData["Title"] = "Employees";
+    var average = Model.Average(s => s.Salary);
+}
+
+<h2>Employees List</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmployeeId</td>
+                <td>@item.FullName</td>
+                <td>@item.Department</td>
+                <td>@item.Salary</td>
+            </tr>
+        }
+        <p>Average of all Salaries:@average</p>
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DbFirstDemo.Models;
+
+public partial class Enrollments
+{
+    public int EnrollmentId { get; set; }
+
+    public int StudentId { get; set; }
+
+    public int CourseId { get; set; }
+
+    public DateOnly EnrolledOn { get; set; }
+
+    public virtual Courses Course { get; set; } = null!;
+
+    public virtual Students Student { get; set; } = null!;
+}

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PrintingData/PrintingData.csproj" Id="d234f7a1-b6de-4b7c-9420-f542135015ab" />
+  <Project Path="WebApi.Api/WebApi.Api.csproj" />
+  <Project Path="WebApi.Data/WebApi.Data.csproj" />
+  <Project Path="WebApi.MVC/WebApi.MVC.csproj" />
+</Solution>

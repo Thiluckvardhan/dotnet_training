@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Product List (AJAX)</h2>
+
+<div>
+    <input type="text" id="name" placeholder="Product Name" />
+    <input type="number" id="price" placeholder="Price" />
+    <button onclick="addProduct()">Add Product</button>
+</div>
+
+<br />
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody id="productTable">
+    </tbody>
+</table>
+
+<br />
+<br />
+<select id="todoDropdown">
+    <option value="">Select a Todo</option>
+</select>
+
+<div id="todoDetails" style="margin-top:20px;"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            loadProducts();
+        });
+
+        function loadProducts() {
+            $.ajax({
+                url: '/Product/GetProducts',
+                type: 'GET',
+                success: function (data) {
+                    $("#productTable").empty();
+                    $.each(data, function (i, item) {
+                        $("#productTable").append(
+                            "<tr>" +
+                            "<td>" + item.id + "</td>" +
+                            "<td>" + item.name + "</td>" +
+                            "<td>" + item.price + "</td>" +
+                            "</tr>"
+                        );
+                    });
+                }
+            });
+
+
+        }
+
+        function addProduct() {
+            var product = {
+                Name: $("#name").val(),
+                Price: parseFloat($("#price").val())
+            };
+
+            $.ajax({
+                url: '/Product/AddProduct',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(product),
+                success: function () {
+                    loadProducts();
+                    $("#name").val('');
+                    $("#price").val('');
+                }
+            });
+        }
+                   const xhr = new XMLHttpRequest();
+        const url = 'https://jsonplaceholder.typicode.com/todos/';
+
+        let todos = []; // Store data globally
+
+        xhr.open('GET', url, true);
+
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+
+            todos = JSON.parse(xhr.responseText);
+
+            const dropdown = document.getElementById("todoDropdown");
+
+            todos.forEach(todo => {
+              const option = document.createElement("option");
+              option.value = todo.id;
+              option.textContent = todo.title;
+              dropdown.appendChild(option);
+            });
+
+          } else {
+            console.error('Error:', xhr.status, xhr.statusText);
+          }
+        };
+
+        xhr.onerror = function () {
+          console.error('Network error occurred');
+        };
+
+        xhr.send();
+
+
+        // 👇 When selection changes
+        document.getElementById("todoDropdown").addEventListener("change", function () {
+
+          const selectedId = this.value;
+
+          if (!selectedId) {
+            document.getElementById("todoDetails").innerHTML = "";
+            return;
+          }
+
+          const selectedTodo = todos.find(todo => todo.id == selectedId);
+
+          document.getElementById("todoDetails").innerHTML = `
+            <h3>Todo Details</h3>
+            <p><strong>ID:</strong> ${selectedTodo.id}</p>
+            <p><strong>User ID:</strong> ${selectedTodo.userId}</p>
+            <p><strong>Title:</strong> ${selectedTodo.title}</p>
+            <p><strong>Status:</strong> ${selectedTodo.completed ? "Completed ✅" : "Not Completed ❌"}</p>
+          `;
+        });
+   </script>
+}

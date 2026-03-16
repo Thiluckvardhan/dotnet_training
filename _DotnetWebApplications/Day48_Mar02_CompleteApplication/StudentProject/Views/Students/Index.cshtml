@@ -1,0 +1,126 @@
+﻿@model IEnumerable<StudentProject.ViewModels.StudentDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div style="margin-bottom:10px">
+    <input id="q" class="form-control" style="max-width:320px; display:inline-block" placeholder="Search name/email..." />
+    <button id="btnSearch" class="btn btn-primary" type="button">Search</button>
+    <span id="liveBox" class="text-muted" style="margin-left:8px"></span>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JoinDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tblBody">
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JoinDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            const $q = $("#q");
+            const $box = $("#liveBox");
+            const $tbody = $("#tblBody");
+
+            function renderRows(items) {
+                if (!items || items.length === 0) {
+                    $tbody.html("<tr><td colspan='6'>No results</td></tr>");
+                    return;
+                }
+
+                const rows = items.map(s => `
+                    <tr>
+                        <td>${s.fullName}</td>
+                        <td>${s.email}</td>
+                        <td>${s.phone ?? ""}</td>
+                        <td>${s.joinDate}</td>
+                        <td>${s.createdAt}</td>
+                        <td>
+                            <a href="/Students/Edit/${s.studentId}">Edit</a> |
+                            <a href="/Students/Details/${s.studentId}">Details</a> |
+                            <a href="/Students/Delete/${s.studentId}">Delete</a>
+                        </td>
+                    </tr>
+                `).join("");
+
+                $tbody.html(rows);
+            }
+
+            function search() {
+                const q = $q.val().trim();
+                if (!q) {
+                    $box.text("");
+                    return;
+                }
+                if (q.length < 2) {
+                    $box.text("Enter at least 2 characters.");
+                    return;
+                }
+
+                $box.text("Searching...");
+                $.getJSON("/Students/Search", { q })
+                    .done(data => {
+                        $box.text(`Found: ${data.length}`);
+                        renderRows(data);
+                    })
+                    .fail(() => $box.text("Search failed"));
+            }
+
+            $("#btnSearch").on("click", search);
+            $q.on("keyup", function () {
+                clearTimeout(this._t);
+                this._t = setTimeout(search, 250);
+            });
+        });
+    </script>
+}
