@@ -1,0 +1,7 @@
+﻿namespace UtilityBillingCalculator
+{
+    interface BillCalculator
+    {
+
+    }
+}

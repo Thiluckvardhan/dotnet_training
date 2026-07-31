@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../ModelsLib/ModelsLib.csproj" />
+  <Project Path="../ProductSales/ProductSales.csproj" />
+</Solution>

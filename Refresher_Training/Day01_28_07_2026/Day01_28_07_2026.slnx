@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="H1/H1.csproj" Id="8668ce03-1dc1-48ac-8284-3df208c0a8ac" />
+  <Project Path="M1/M1.csproj" />
+  <Project Path="M2/M2.csproj" />
+  <Project Path="M3/M3.csproj" />
+  <Project Path="M4/M4.csproj" />
+  <Project Path="M5/M5.csproj" Id="540c4a61-5477-42b0-8086-dfcf39da702c" />
+</Solution>
