@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Interview Questions - C#</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            padding: 40px;
+            color: #1e2a3a;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #0b3b5c;
+            border-bottom: 4px solid #0078d4;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            color: #4a5c6e;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+        .level {
+            background: #eef3f7;
+            padding: 8px 18px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #005a9e;
+            margin-top: 40px;
+            margin-bottom: 15px;
+        }
+        .card {
+            background: #fafcff;
+            border-left: 6px solid #0078d4;
+            padding: 25px 30px;
+            margin-bottom: 35px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .card h3 {
+            font-size: 1.3em;
+            color: #0b3b5c;
+            margin-bottom: 8px;
+        }
+        .scenario {
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-top: 10px;
+        }
+        .question {
+            font-weight: 600;
+            color: #a11f2c;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .solution {
+            background: #f0f4fa;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-top: 12px;
+            border-left: 3px solid #28a745;
+        }
+        .solution strong {
+            color: #0b5e2e;
+        }
+        code {
+            background: #e8ecf1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #1e2a3a;
+            color: #d4e4f7;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        .gotcha {
+            border-left-color: #d9534f;
+        }
+        .gotcha .level {
+            background: #fce9e9;
+            color: #b02b27;
+        }
+        @media print {
+            body { background: white; padding: 10px; }
+            .container { box-shadow: none; padding: 20px; }
+            .card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Real-World OOP Interview Questions</h1>
+        <div class="subtitle">C# Scenarios for Junior to Architect Roles</div>
+
+        <!-- LEVEL 1 -->
+        <div class="level">🔹 Level 1: Foundational</div>
+
+        <div class="card">
+            <h3>1. The "Payment Processor"</h3>
+            <div class="scenario">Scenario:</strong> Fintech app supporting Stripe, PayPal, and Razorpay with different charge methods.</div>
+            <div class="question">Question: How do you design this so the Checkout service is decoupled?</div>
+            <div class="solution"><strong>Solution:</strong> Use an <code>IPaymentGateway</code> interface. Each gateway implements it. Checkout service takes <code>IPaymentGateway</code> via Dependency Injection.</div>
+        </div>
+
+        <div class="card">
+            <h3>2. The "Employee Management"</h3>
+            <div class="scenario">Scenario:</strong> Base <code>Employee</code> class with <code>CalculatePay()</code>. Derived <code>FullTimeEmployee</code> and <code>InternEmployee</code>.</div>
+            <div class="question">Question: Prevent inheritance from <code>InternEmployee</code>. Allow overriding <code>CalculatePay</code> with a default base implementation.</div>
+            <div class="solution"><strong>Solution:</strong> Mark <code>InternEmployee</code> as <code>sealed</code>. Use <code>virtual</code> in base and <code>override</code> in derived classes.</div>
+        </div>
+
+        <div class="card">
+            <h3>3. The "E-commerce Discount"</h3>
+            <div class="scenario">Scenario:</strong> Black Friday sales. Need flexible discounts without modifying <code>Product</code> class.</div>
+            <div class="question">Question: Implement a discount strategy using the Strategy Pattern.</div>
+            <div class="solution"><strong>Solution:</strong> <code>IDiscountStrategy</code> interface with <code>ApplyDiscount</code> method. Cart receives the strategy. No switch statements inside <code>Product</code>.</div>
+        </div>
+
+        <!-- LEVEL 2 -->
+        <div class="level">🔸 Level 2: Intermediate</div>
+
+        <div class="card">
+            <h3>4. The "Logging Library"</h3>
+            <div class="scenario">Scenario:</strong> Need a single logger instance to prevent file locking.</div>
+            <div class="question">Question: Implement thread-safe Singleton. Why not a static class? Limitation?</div>
+            <div class="solution"><strong>Solution:</strong> Use <code>Lazy&lt;T&gt;</code>. Static classes can't implement interfaces or be mocked. Limitation: introduces global state and hurts testability.</div>
+        </div>
+
+        <div class="card">
+            <h3>5. The "Report Generator"</h3>
+            <div class="scenario">Scenario:</strong> Reports in PDF, Excel, CSV. Steps: Fetch, Format, Save. Format differs per format.</div>
+            <div class="question">Question: Design to prevent code duplication.</div>
+            <div class="solution"><strong>Solution:</strong> Abstract base class <code>ReportGenerator</code> with Template Method <code>GenerateReport()</code>. <code>FormatData()</code> is <code>protected abstract</code>.</div>
+        </div>
+
+        <div class="card">
+            <h3>6. The "UI Controls" (LSP)</h3>
+            <div class="scenario">Scenario:</strong> <code>Square</code> inherits from <code>Rectangle</code>. Setting Width also sets Height.</div>
+            <div class="question">Question: Is this good design? How does it break Liskov Substitution?</div>
+            <div class="solution"><strong>Solution:</strong> Bad design. If a method expects a <code>Rectangle</code> and sets <code>Width=10; Height=5;</code>, a <code>Square</code> will fail (Height becomes 10). Use <code>IShape</code> interface instead.</div>
+        </div>
+
+        <!-- LEVEL 3 -->
+        <div class="level">🔹 Level 3: Advanced (Senior/Architect)</div>
+
+        <div class="card">
+            <h3>7. The "Plug-in Architecture"</h3>
+            <div class="scenario">Scenario:</strong> Load unknown plugins from .dlls at runtime.</div>
+            <div class="question">Question: Design the contract and discovery mechanism.</div>
+            <div class="solution"><strong>Solution:</strong> Define <code>IPlugin</code> in a shared DLL. Use <code>Assembly.LoadFile</code>, reflection (<code>IsAssignableFrom</code>), and <code>Activator.CreateInstance</code>.</div>
+        </div>
+
+        <div class="card">
+            <h3>8. The "Expensive Database Call"</h3>
+            <div class="scenario">Scenario:</strong> <code>Customer.OrderHistory</code> is expensive to fetch. Load only when accessed.</div>
+            <div class="question">Question: Implement lazy loading using a proxy.</div>
+            <div class="solution"><strong>Solution:</strong> Use <code>Lazy&lt;List&lt;Order&gt;&gt;</code> backing field. Initialize in constructor with a database delegate.</div>
+        </div>
+
+        <div class="card">
+            <h3>9. The "Cross-Cutting Concern"</h3>
+            <div class="scenario">Scenario:</strong> Need to add Encryption, Compression, and Buffering to a Stream.</div>
+            <div class="question">Question: How does the Decorator pattern prevent class explosion?</div>
+            <div class="solution"><strong>Solution:</strong> Each decorator takes a <code>Stream</code> in its constructor. Instantiate as: <code>new EncryptionStream(new CompressionStream(new FileStream()))</code>.</div>
+        </div>
+
+        <div class="card">
+            <h3>10. The "Immutable DTO"</h3>
+            <div class="scenario">Scenario:</strong> Microservice event <code>OrderSubmittedEvent</code> must be thread-safe and immutable.</div>
+            <div class="question">Question: Compare <code>record</code> vs <code>class</code> (private set) vs <code>readonly struct</code>.</div>
+            <div class="solution"><strong>Solution:</strong> Records are best for DTOs (value equality). <code>readonly struct</code> is best for high-performance (no GC pressure). Use struct if publishing millions of events/sec.</div>
+        </div>
+
+        <!-- LEVEL 4 -->
+        <div class="level">⚠️ Level 4: The "Gotchas"</div>
+
+        <div class="card gotcha">
+            <h3>11. Constructor Chaos</h3>
+            <div class="scenario">Scenario:</strong> <code>Derived d = new Derived("test");</code></div>
+            <div class="question">Question: What constructor order executes?</div>
+            <div class="solution"><strong>Answer:</strong> <code>Base</code> (parameterless) then <code>DerivedString</code>. The <code>base(10)</code> from the other constructor is not called.</div>
+        </div>
+
+        <div class="card gotcha">
+            <h3>12. <code>new</code> vs <code>override</code></h3>
+            <div class="scenario">Scenario:</strong> <code>A obj = new C(); obj.Show();</code></div>
+            <div class="question">Question: What prints? <code>A</code>, <code>B</code>, or <code>C</code>?</div>
+            <div class="solution"><strong>Answer:</strong> <code>B</code>. The <code>new</code> keyword hides the implementation but doesn't override it. The virtual table still points to the last override (<code>B</code>).</div>
+        </div>
+
+        <p style="margin-top: 40px; text-align: center; color: #6b7a8a; border-top: 1px solid #ddd; padding-top: 20px;">
+            📄 Generated for technical interview preparation • C# OOP Deep Dive
+        </p>
+    </div>
+</body>
+</html>
